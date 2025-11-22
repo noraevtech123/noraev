@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Button from "./Button";
+import CustomerSupport from "./CustomerSupport";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { features } from "@/lib/constants";
@@ -14,6 +15,7 @@ const Hero = () => {
   const heroRef = useRef(null);
   const formRef = useRef(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -135,7 +137,8 @@ const Hero = () => {
                   className="h-22 w-24 lg:h-32 lg:w-32 "
                 />
               </div>
-              <div className="z-20">
+              <div className="z-20 flex gap-2 md:gap-3">
+                <Button onClick={() => setIsSupportModalOpen(true)}>Customer Support</Button>
                 <Button onClick={showFormAnimation}>Pre-Order</Button>
               </div>
             </nav>
@@ -336,6 +339,12 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Customer Support Modal */}
+      <CustomerSupport
+        isOpen={isSupportModalOpen}
+        onClose={() => setIsSupportModalOpen(false)}
+      />
     </>
   );
 };

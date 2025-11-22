@@ -4,7 +4,12 @@ from pydantic import BaseModel, EmailStr, validator
 import resend
 import os
 from dotenv import load_dotenv
-from email_templates import get_user_confirmation_email, get_admin_notification_email
+from email_templates import (
+    get_user_confirmation_email,
+    get_admin_notification_email,
+    get_support_user_email,
+    get_support_admin_email
+)
 
 load_dotenv()
 
@@ -46,6 +51,32 @@ class PreOrderRequest(BaseModel):
     def validate_city(cls, v):
         if not v or len(v.strip()) < 2:
             raise ValueError('city must be at least 2 characters')
+        return v.strip()
+
+
+class CustomerSupportRequest(BaseModel):
+    name: str
+    phone: str
+    query: str
+
+    @validator('name')
+    def validate_name(cls, v):
+        if not v or len(v.strip()) < 2:
+            raise ValueError('name must be at least 2 characters')
+        return v.strip()
+
+    @validator('phone')
+    def validate_phone(cls, v):
+        # Remove common phone number characters
+        cleaned = ''.join(filter(str.isdigit, v))
+        if len(cleaned) < 10:
+            raise ValueError('phone number must be at least 10 digits')
+        return v.strip()
+
+    @validator('query')
+    def validate_query(cls, v):
+        if not v or len(v.strip()) < 5:
+            raise ValueError('query must be at least 5 characters')
         return v.strip()
 
 
@@ -99,6 +130,51 @@ async def submit_pre_order(request: PreOrderRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to process pre-order: {str(e)}")
+
+
+@app.post("/api/customer-support")
+async def submit_customer_support(request: CustomerSupportRequest):
+    try:
+        # Send confirmation email to user
+        user_email_html = get_support_user_email(
+            name=request.name,
+            phone=request.phone,
+            query=request.query
+        )
+
+        user_email = resend.Emails.send({
+            "from": "NoRa EV Support <info@noraevtech.com>",
+            "to": ["info@noraevtech.com"],  # Will be sent to admin, user doesn't provide email
+            "subject": f"Customer Support Query from {request.name}",
+            "html": user_email_html,
+            "reply_to": "info@noraevtech.com"
+        })
+
+        # Send notification email to admin
+        admin_email_html = get_support_admin_email(
+            name=request.name,
+            phone=request.phone,
+            query=request.query
+        )
+
+        admin_email = resend.Emails.send({
+            "from": "NoRa EV System <info@noraevtech.com>",
+            "to": ["info@noraevtech.com"],
+            "subject": f"New Customer Support Query: {request.name}",
+            "html": admin_email_html
+        })
+
+        return {
+            "success": True,
+            "message": "Customer support query submitted successfully",
+            "data": {
+                "name": request.name,
+                "phone": request.phone
+            }
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to process customer support query: {str(e)}")
 
 
 @app.get("/health")
