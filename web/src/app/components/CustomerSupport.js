@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { pipeline } from "@xenova/transformers";
 
 const CustomerSupport = ({ isOpen, onClose }) => {
   const [step, setStep] = useState("initial");
@@ -13,23 +14,47 @@ const CustomerSupport = ({ isOpen, onClose }) => {
   });
   const [error, setError] = useState("");
   const [currentPrompt, setCurrentPrompt] = useState("");
+  const [isModelLoading, setIsModelLoading] = useState(false);
 
   const recognitionRef = useRef(null);
   const synthRef = useRef(null);
+  const nerPipelineRef = useRef(null);
 
   const questions = [
-    { field: "name", prompt: "What's your name?", placeholder: "Your name" },
+    { field: "name", prompt: "آپ کا نام کیا ہے؟", promptEn: "What's your name?", placeholder: "Your name" },
     {
       field: "phone",
-      prompt: "What's your phone number?",
+      prompt: "آپ کا فون نمبر کیا ہے؟",
+      promptEn: "What's your phone number?",
       placeholder: "+92 300 1234567",
     },
     {
       field: "query",
-      prompt: "How can we help you today?",
+      prompt: "ہم آپ کی کیسے مدد کر سکتے ہیں؟",
+      promptEn: "How can we help you today?",
       placeholder: "Your question or query",
     },
   ];
+
+  // Initialize NER model
+  useEffect(() => {
+    const loadNERModel = async () => {
+      try {
+        setIsModelLoading(true);
+        // Load NER pipeline for extracting person names
+        nerPipelineRef.current = await pipeline(
+          "token-classification",
+          "Xenova/bert-base-NER"
+        );
+        setIsModelLoading(false);
+      } catch (error) {
+        console.error("Error loading NER model:", error);
+        setIsModelLoading(false);
+      }
+    };
+
+    loadNERModel();
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -37,11 +62,62 @@ const CustomerSupport = ({ isOpen, onClose }) => {
     }
   }, []);
 
+  // Extract name from text using NER
+  const extractName = async (text) => {
+    if (!nerPipelineRef.current) {
+      // Fallback: return the text as-is if model not loaded
+      return text.trim();
+    }
+
+    try {
+      const result = await nerPipelineRef.current(text);
+
+      // Filter for PERSON entities
+      const personEntities = result.filter(
+        (entity) => entity.entity.includes("PER")
+      );
+
+      if (personEntities.length > 0) {
+        // Combine consecutive person tokens into full name
+        let fullName = "";
+        let currentName = "";
+
+        for (let i = 0; i < personEntities.length; i++) {
+          const entity = personEntities[i];
+
+          if (entity.entity.startsWith("B-")) {
+            // Beginning of a new name
+            if (currentName) {
+              fullName += currentName + " ";
+            }
+            currentName = entity.word.replace("##", "");
+          } else if (entity.entity.startsWith("I-")) {
+            // Continuation of current name
+            currentName += entity.word.replace("##", "");
+          }
+        }
+
+        if (currentName) {
+          fullName += currentName;
+        }
+
+        return fullName.trim() || text.trim();
+      }
+
+      // No person entity found, return original text
+      return text.trim();
+    } catch (error) {
+      console.error("Error extracting name:", error);
+      return text.trim();
+    }
+  };
+
   const speak = (text) => {
     if (synthRef.current) {
       synthRef.current.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.9;
+      utterance.lang = "ur-PK"; // Urdu language
+      utterance.rate = 0.85;
       utterance.pitch = 1;
       utterance.volume = 1;
       utterance.onend = () => {
@@ -138,14 +214,17 @@ const CustomerSupport = ({ isOpen, onClose }) => {
     return text;
   };
 
-  const handleVoiceInput = (text) => {
+  const handleVoiceInput = async (text) => {
     // Stop listening immediately to prevent multiple captures
     stopListening();
 
     const currentField = questions[currentQuestion].field;
     let processedText = text.trim();
 
-    if (currentField === "phone") {
+    // Use NER to extract name from natural language
+    if (currentField === "name") {
+      processedText = await extractName(text);
+    } else if (currentField === "phone") {
       processedText = formatPakistaniPhone(text);
     }
 
@@ -313,10 +392,12 @@ const CustomerSupport = ({ isOpen, onClose }) => {
 
               <div>
                 <h3 className="text-gray-900 text-xl font-semibold mb-2">
-                  Voice Assistant Ready
+                  {isModelLoading ? "Loading AI Model..." : "Voice Assistant Ready"}
                 </h3>
                 <p className="text-gray-600 text-sm">
-                  Click Start and I'll ask you three questions.
+                  {isModelLoading
+                    ? "Please wait while we prepare the AI assistant"
+                    : "Click Start and I'll ask you three questions in Urdu."}
                 </p>
               </div>
 
@@ -328,9 +409,14 @@ const CustomerSupport = ({ isOpen, onClose }) => {
 
               <button
                 onClick={handleStart}
-                className="bg-lime-400 text-black font-semibold px-8 py-3 rounded-lg hover:bg-lime-500 transition-all shadow-md hover:shadow-lg"
+                disabled={isModelLoading}
+                className={`font-semibold px-8 py-3 rounded-lg transition-all shadow-md ${
+                  isModelLoading
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-lime-400 text-black hover:bg-lime-500 hover:shadow-lg"
+                }`}
               >
-                Start
+                {isModelLoading ? "Loading..." : "Start"}
               </button>
             </div>
           )}
