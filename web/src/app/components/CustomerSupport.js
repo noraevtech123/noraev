@@ -139,6 +139,9 @@ const CustomerSupport = ({ isOpen, onClose }) => {
   };
 
   const handleVoiceInput = (text) => {
+    // Stop listening immediately to prevent multiple captures
+    stopListening();
+
     const currentField = questions[currentQuestion].field;
     let processedText = text.trim();
 
@@ -151,9 +154,12 @@ const CustomerSupport = ({ isOpen, onClose }) => {
       [currentField]: processedText,
     }));
 
+    // Wait before moving to next question
     setTimeout(() => {
-      if (currentQuestion < questions.length - 1) {
-        const nextQuestionIndex = currentQuestion + 1;
+      const nextQuestionIndex = currentQuestion + 1;
+
+      if (nextQuestionIndex < questions.length) {
+        // Move to next question
         setCurrentQuestion(nextQuestionIndex);
         setTranscript("");
         setError("");
@@ -161,6 +167,7 @@ const CustomerSupport = ({ isOpen, onClose }) => {
         setCurrentPrompt(nextPrompt);
         speak(nextPrompt);
       } else {
+        // All questions answered, show confirmation
         setStep("confirmation");
         setTranscript("");
         setCurrentPrompt("");
