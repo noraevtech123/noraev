@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@livekit/components-react": "^2.9.16",
     "@studio-freight/lenis": "^1.0.42",
     "@xenova/transformers": "^2.17.2",
     "gsap": "^3.13.0",
+    "livekit-client": "^2.16.0",
+    "livekit-server-sdk": "^2.14.2",
     "next": "15.5.5",
     "react": "19.1.0",
     "react-dom": "19.1.0"
