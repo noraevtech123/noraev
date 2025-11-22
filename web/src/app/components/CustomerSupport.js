@@ -153,10 +153,11 @@ const CustomerSupport = ({ isOpen, onClose }) => {
 
     setTimeout(() => {
       if (currentQuestion < questions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
+        const nextQuestionIndex = currentQuestion + 1;
+        setCurrentQuestion(nextQuestionIndex);
         setTranscript("");
         setError("");
-        const nextPrompt = questions[currentQuestion + 1].prompt;
+        const nextPrompt = questions[nextQuestionIndex].prompt;
         setCurrentPrompt(nextPrompt);
         speak(nextPrompt);
       } else {
