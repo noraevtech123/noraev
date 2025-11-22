@@ -13,9 +13,11 @@ const CustomerSupport = ({ isOpen, onClose }) => {
     query: "",
   });
   const [error, setError] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+  const [currentPrompt, setCurrentPrompt] = useState("");
 
   const recognitionRef = useRef(null);
+  const synthRef = useRef(null);
+
   const questions = [
     { field: "name", prompt: "What's your name?", placeholder: "Your name" },
     {
@@ -29,6 +31,36 @@ const CustomerSupport = ({ isOpen, onClose }) => {
       placeholder: "Your question or query",
     },
   ];
+
+  // Initialize speech synthesis
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      synthRef.current = window.speechSynthesis;
+    }
+  }, []);
+
+  // Speak a prompt using text-to-speech
+  const speak = (text) => {
+    if (synthRef.current) {
+      // Cancel any ongoing speech
+      synthRef.current.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      utterance.onend = () => {
+        // Start listening after speech ends
+        setTimeout(() => startListening(), 500);
+      };
+
+      synthRef.current.speak(utterance);
+    } else {
+      // Fallback: start listening immediately if TTS not available
+      setTimeout(() => startListening(), 500);
+    }
+  };
 
   // Initialize speech recognition
   useEffect(() => {
@@ -65,7 +97,7 @@ const CustomerSupport = ({ isOpen, onClose }) => {
         recognitionRef.current.onerror = (event) => {
           console.error("Speech recognition error:", event.error);
           setError(
-            "Could not understand. Please try again or type your response."
+            "Could not understand. Please try speaking again."
           );
           setIsListening(false);
         };
@@ -82,26 +114,19 @@ const CustomerSupport = ({ isOpen, onClose }) => {
       if (recognitionRef.current) {
         recognitionRef.current.abort();
       }
+      if (synthRef.current) {
+        synthRef.current.cancel();
+      }
     };
   }, []);
 
   // Format phone number for Pakistan
   const formatPakistaniPhone = (text) => {
-    // Remove all non-digit characters first
     let digits = text.replace(/\D/g, "");
 
-    // Handle common voice inputs
     const voiceReplacements = {
-      zero: "0",
-      one: "1",
-      two: "2",
-      three: "3",
-      four: "4",
-      five: "5",
-      six: "6",
-      seven: "7",
-      eight: "8",
-      nine: "9",
+      zero: "0", one: "1", two: "2", three: "3", four: "4",
+      five: "5", six: "6", seven: "7", eight: "8", nine: "9",
     };
 
     let processedText = text.toLowerCase();
@@ -111,27 +136,20 @@ const CustomerSupport = ({ isOpen, onClose }) => {
 
     digits = processedText.replace(/\D/g, "");
 
-    // If starts with 0, assume Pakistani local format
     if (digits.startsWith("0")) {
       digits = "92" + digits.substring(1);
     }
 
-    // If doesn't start with 92, prepend it
     if (!digits.startsWith("92")) {
       digits = "92" + digits;
     }
 
-    // Ensure it has correct length (92 + 10 digits = 12 total)
     if (digits.length >= 12) {
       digits = digits.substring(0, 12);
     }
 
-    // Format as +92 XXX XXXXXXX
     if (digits.length >= 12) {
-      return `+${digits.substring(0, 2)} ${digits.substring(
-        2,
-        5
-      )} ${digits.substring(5, 12)}`;
+      return `+${digits.substring(0, 2)} ${digits.substring(2, 5)} ${digits.substring(5, 12)}`;
     } else if (digits.length >= 5) {
       return `+${digits.substring(0, 2)} ${digits.substring(2)}`;
     } else if (digits.length >= 2) {
@@ -160,10 +178,14 @@ const CustomerSupport = ({ isOpen, onClose }) => {
       if (currentQuestion < questions.length - 1) {
         setCurrentQuestion(currentQuestion + 1);
         setTranscript("");
-        startListening();
+        setError("");
+        const nextPrompt = questions[currentQuestion + 1].prompt;
+        setCurrentPrompt(nextPrompt);
+        speak(nextPrompt);
       } else {
         setStep("confirmation");
         setTranscript("");
+        setCurrentPrompt("");
       }
     }, 1500);
   };
@@ -174,7 +196,11 @@ const CustomerSupport = ({ isOpen, onClose }) => {
       setError("");
       setTranscript("");
       setIsListening(true);
-      recognitionRef.current.start();
+      try {
+        recognitionRef.current.start();
+      } catch (e) {
+        console.error("Error starting recognition:", e);
+      }
     }
   };
 
@@ -192,18 +218,19 @@ const CustomerSupport = ({ isOpen, onClose }) => {
     setCurrentQuestion(0);
     setFormData({ name: "", phone: "", query: "" });
     setError("");
-    setTimeout(() => startListening(), 500);
+    setTranscript("");
+    const firstPrompt = questions[0].prompt;
+    setCurrentPrompt(firstPrompt);
+    speak(firstPrompt);
   };
 
-  // Handle manual input change
-  const handleInputChange = (field, value) => {
-    if (field === "phone") {
-      value = formatPakistaniPhone(value);
-    }
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  // Retry current question
+  const handleRetry = () => {
+    setError("");
+    setTranscript("");
+    const currentPromptText = questions[currentQuestion].prompt;
+    setCurrentPrompt(currentPromptText);
+    speak(currentPromptText);
   };
 
   // Submit form
@@ -233,15 +260,29 @@ const CustomerSupport = ({ isOpen, onClose }) => {
     }
   };
 
+  // Handle manual input change
+  const handleInputChange = (field, value) => {
+    if (field === "phone") {
+      value = formatPakistaniPhone(value);
+    }
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
   // Close modal
   const handleClose = () => {
     stopListening();
+    if (synthRef.current) {
+      synthRef.current.cancel();
+    }
     setStep("initial");
     setCurrentQuestion(0);
     setFormData({ name: "", phone: "", query: "" });
     setTranscript("");
     setError("");
-    setIsEditing(false);
+    setCurrentPrompt("");
     onClose();
   };
 
@@ -251,173 +292,138 @@ const CustomerSupport = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black opacity-85"
+        className="absolute inset-0 bg-black opacity-90"
         onClick={handleClose}
       ></div>
 
       {/* Modal */}
-      <div className="relative z-10 bg-black border-2 border-lime-400 rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div className="relative z-10 bg-black border-2 border-lime-400 rounded-lg w-full max-w-lg">
         {/* Header */}
-        <div className="bg-black p-6 border-b-2 border-lime-400">
+        <div className="p-6 border-b border-lime-400">
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-white hover:text-lime-400 transition-colors"
+            className="absolute top-4 right-4 text-white hover:text-lime-400 transition-colors text-2xl"
           >
-            <span className="text-2xl">×</span>
+            ×
           </button>
-          <h2 className="font-conthrax text-2xl md:text-3xl text-lime-400">
+          <h2 className="font-conthrax text-2xl text-lime-400">
             Customer Support
           </h2>
-          <p className="text-gray-300 text-sm mt-2">
+          <p className="text-gray-400 text-sm mt-2">
             We're here to help. Ask us anything about NoRa EV.
           </p>
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-8">
           {/* Initial Screen */}
           {step === "initial" && (
             <div className="text-center space-y-6">
-              <div className="bg-lime-400 bg-opacity-10 border border-lime-400 rounded-lg p-6">
-                <svg
-                  className="w-16 h-16 mx-auto mb-4 text-lime-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                  />
-                </svg>
+              <div className="flex justify-center mb-6">
+                <div className="w-24 h-24 bg-lime-400 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-12 h-12 text-black"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                  </svg>
+                </div>
+              </div>
+
+              <div>
                 <h3 className="text-white text-xl font-semibold mb-2">
-                  Voice-Powered Support
+                  Voice Assistant Ready
                 </h3>
-                <p className="text-gray-300 text-sm">
-                  Click Start to begin. We'll ask for your name, phone number,
-                  and your question. You can speak or type your responses.
+                <p className="text-gray-400 text-sm">
+                  Click Start and I'll ask you three questions.
                 </p>
               </div>
 
               {error && (
-                <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-lg p-4">
+                <div className="bg-red-900 bg-opacity-30 border border-red-500 rounded p-3">
                   <p className="text-red-400 text-sm">{error}</p>
                 </div>
               )}
 
-              <Button bgColor="lime" onClick={handleStart}>
+              <button
+                onClick={handleStart}
+                className="bg-lime-400 text-black font-semibold px-8 py-3 rounded hover:bg-lime-500 transition-colors"
+              >
                 Start
-              </Button>
+              </button>
             </div>
           )}
 
           {/* Listening Screen */}
           {step === "listening" && (
-            <div className="space-y-6">
-              {/* Progress indicator */}
-              <div className="flex justify-center space-x-2 mb-6">
+            <div className="text-center space-y-6">
+              {/* Progress dots */}
+              <div className="flex justify-center gap-2 mb-6">
                 {questions.map((_, idx) => (
                   <div
                     key={idx}
-                    className={`h-2 w-12 rounded-full ${
-                      idx <= currentQuestion ? "bg-lime-400" : "bg-gray-600"
+                    className={`h-2 w-2 rounded-full ${
+                      idx < currentQuestion
+                        ? "bg-lime-400"
+                        : idx === currentQuestion
+                        ? "bg-lime-400 animate-pulse"
+                        : "bg-gray-600"
                     }`}
                   ></div>
                 ))}
               </div>
 
-              {/* Current Question */}
-              <div className="text-center">
-                <h3 className="text-lime-400 text-xl font-semibold mb-4">
-                  {questions[currentQuestion].prompt}
-                </h3>
-
-                {/* Voice indicator */}
-                {isListening && (
-                  <div className="flex justify-center mb-4">
-                    <div className="flex space-x-2">
-                      <div className="w-3 h-12 bg-lime-400 rounded animate-pulse"></div>
-                      <div
-                        className="w-3 h-16 bg-lime-400 rounded animate-pulse"
-                        style={{ animationDelay: "0.1s" }}
-                      ></div>
-                      <div
-                        className="w-3 h-12 bg-lime-400 rounded animate-pulse"
-                        style={{ animationDelay: "0.2s" }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Transcript / Input */}
-                <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 min-h-[100px] mb-4">
-                  <p className="text-white text-lg">
-                    {transcript ||
-                      formData[questions[currentQuestion].field] ||
-                      "Listening..."}
-                  </p>
-                </div>
-
-                {/* Manual Input Option */}
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    placeholder={questions[currentQuestion].placeholder}
-                    value={formData[questions[currentQuestion].field]}
-                    onChange={(e) =>
-                      handleInputChange(
-                        questions[currentQuestion].field,
-                        e.target.value
-                      )
-                    }
-                    className="w-full bg-transparent border-b border-gray-600 pb-2 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
-                  />
-                  <p className="text-gray-400 text-xs mt-2">
-                    Or type your response above
-                  </p>
-                </div>
-
-                {/* Controls */}
-                <div className="flex justify-center space-x-4">
-                  {isListening ? (
-                    <button
-                      onClick={stopListening}
-                      className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-                    >
-                      Stop
-                    </button>
-                  ) : (
-                    <button
-                      onClick={startListening}
-                      className="px-6 py-2 bg-lime-400 text-black rounded hover:bg-lime-500 transition-colors"
-                    >
-                      Speak
-                    </button>
-                  )}
-
-                  {formData[questions[currentQuestion].field] && (
-                    <button
-                      onClick={() => {
-                        if (currentQuestion < questions.length - 1) {
-                          setCurrentQuestion(currentQuestion + 1);
-                          setTranscript("");
-                        } else {
-                          setStep("confirmation");
-                        }
-                      }}
-                      className="px-6 py-2 bg-white text-black rounded hover:bg-gray-200 transition-colors"
-                    >
-                      Next
-                    </button>
-                  )}
+              {/* Microphone Visualization */}
+              <div className="flex justify-center mb-6">
+                <div
+                  className={`w-32 h-32 rounded-full flex items-center justify-center transition-all ${
+                    isListening
+                      ? "bg-lime-400 animate-pulse"
+                      : "bg-gray-800 border-2 border-lime-400"
+                  }`}
+                >
+                  <svg
+                    className={`w-16 h-16 ${
+                      isListening ? "text-black" : "text-lime-400"
+                    }`}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                  </svg>
                 </div>
               </div>
 
+              {/* Status Text */}
+              <div className="min-h-[80px]">
+                {isListening ? (
+                  <>
+                    <p className="text-lime-400 text-lg font-semibold mb-2">
+                      Listening...
+                    </p>
+                    {transcript && (
+                      <p className="text-white text-base">"{transcript}"</p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-gray-400 text-sm">
+                    {currentPrompt}
+                  </p>
+                )}
+              </div>
+
               {error && (
-                <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-lg p-4">
-                  <p className="text-red-400 text-sm">{error}</p>
+                <div className="bg-red-900 bg-opacity-30 border border-red-500 rounded p-3">
+                  <p className="text-red-400 text-sm mb-2">{error}</p>
+                  <button
+                    onClick={handleRetry}
+                    className="text-lime-400 text-sm underline hover:text-lime-300"
+                  >
+                    Try Again
+                  </button>
                 </div>
               )}
             </div>
@@ -426,84 +432,65 @@ const CustomerSupport = ({ isOpen, onClose }) => {
           {/* Confirmation Screen */}
           {step === "confirmation" && (
             <div className="space-y-6">
-              <h3 className="text-lime-400 text-xl font-semibold text-center">
+              <h3 className="text-lime-400 text-xl font-semibold text-center mb-6">
                 Please Confirm Your Information
               </h3>
 
-              <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 space-y-4">
+              <div className="space-y-4">
                 {/* Name */}
-                <div>
+                <div className="border border-gray-700 rounded p-4">
                   <label className="block text-gray-400 text-sm mb-2">
                     Name
                   </label>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange("name", e.target.value)}
-                      className="w-full bg-transparent border-b border-gray-600 pb-2 text-white focus:border-lime-400 focus:outline-none transition-colors"
-                    />
-                  ) : (
-                    <p className="text-white text-lg">{formData.name}</p>
-                  )}
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    className="w-full bg-transparent text-white text-lg focus:outline-none"
+                  />
                 </div>
 
                 {/* Phone */}
-                <div>
+                <div className="border border-gray-700 rounded p-4">
                   <label className="block text-gray-400 text-sm mb-2">
                     Phone Number
                   </label>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        handleInputChange("phone", e.target.value)
-                      }
-                      className="w-full bg-transparent border-b border-gray-600 pb-2 text-white focus:border-lime-400 focus:outline-none transition-colors"
-                    />
-                  ) : (
-                    <p className="text-white text-lg">{formData.phone}</p>
-                  )}
+                  <input
+                    type="text"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    className="w-full bg-transparent text-white text-lg focus:outline-none"
+                  />
                 </div>
 
                 {/* Query */}
-                <div>
+                <div className="border border-gray-700 rounded p-4">
                   <label className="block text-gray-400 text-sm mb-2">
                     Your Query
                   </label>
-                  {isEditing ? (
-                    <textarea
-                      value={formData.query}
-                      onChange={(e) =>
-                        handleInputChange("query", e.target.value)
-                      }
-                      rows={3}
-                      className="w-full bg-transparent border border-gray-600 rounded p-2 text-white focus:border-lime-400 focus:outline-none transition-colors"
-                    />
-                  ) : (
-                    <p className="text-white text-lg">{formData.query}</p>
-                  )}
+                  <textarea
+                    value={formData.query}
+                    onChange={(e) => handleInputChange("query", e.target.value)}
+                    rows={3}
+                    className="w-full bg-transparent text-white text-lg focus:outline-none resize-none"
+                  />
                 </div>
               </div>
 
               {error && (
-                <div className="bg-red-500 bg-opacity-10 border border-red-500 rounded-lg p-4">
+                <div className="bg-red-900 bg-opacity-30 border border-red-500 rounded p-3">
                   <p className="text-red-400 text-sm">{error}</p>
                 </div>
               )}
 
-              {/* Actions */}
-              <div className="flex justify-center space-x-4">
+              {/* Submit Button */}
+              <div className="flex justify-center pt-4">
                 <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="px-6 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors"
+                  onClick={handleSubmit}
+                  className="bg-lime-400 text-black font-semibold px-8 py-3 rounded hover:bg-lime-500 transition-colors"
                 >
-                  {isEditing ? "Done Editing" : "Edit"}
-                </button>
-                <Button bgColor="lime" onClick={handleSubmit}>
                   Submit
-                </Button>
+                </button>
               </div>
             </div>
           )}
@@ -511,9 +498,9 @@ const CustomerSupport = ({ isOpen, onClose }) => {
           {/* Success Screen */}
           {step === "success" && (
             <div className="text-center space-y-6 py-8">
-              <div className="w-16 h-16 mx-auto bg-lime-400 rounded-full flex items-center justify-center">
+              <div className="w-20 h-20 mx-auto bg-lime-400 rounded-full flex items-center justify-center">
                 <svg
-                  className="w-10 h-10 text-black"
+                  className="w-12 h-12 text-black"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -530,7 +517,7 @@ const CustomerSupport = ({ isOpen, onClose }) => {
                 Thank You!
               </h3>
               <p className="text-white text-lg">
-                We've received your query and will get back to you shortly.
+                We'll get back to you shortly.
               </p>
             </div>
           )}
