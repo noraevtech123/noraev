@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { pipeline } from "@xenova/transformers";
 
 const CustomerSupport = ({ isOpen, onClose }) => {
   const [step, setStep] = useState("initial");
@@ -14,11 +13,12 @@ const CustomerSupport = ({ isOpen, onClose }) => {
   });
   const [error, setError] = useState("");
   const [currentPrompt, setCurrentPrompt] = useState("");
-  const [isModelLoading, setIsModelLoading] = useState(false);
+  const [isModelLoading, setIsModelLoading] = useState(true);
 
   const recognitionRef = useRef(null);
   const synthRef = useRef(null);
   const nerPipelineRef = useRef(null);
+  const transformersRef = useRef(null);
 
   const questions = [
     { field: "name", prompt: "آپ کا نام کیا ہے؟", promptEn: "What's your name?", placeholder: "Your name" },
@@ -36,16 +36,24 @@ const CustomerSupport = ({ isOpen, onClose }) => {
     },
   ];
 
-  // Initialize NER model
+  // Initialize NER model (dynamic import for client-side only)
   useEffect(() => {
     const loadNERModel = async () => {
+      if (typeof window === "undefined") return;
+
       try {
         setIsModelLoading(true);
+
+        // Dynamically import transformers only on client side
+        const { pipeline } = await import("@xenova/transformers");
+        transformersRef.current = pipeline;
+
         // Load NER pipeline for extracting person names
         nerPipelineRef.current = await pipeline(
           "token-classification",
           "Xenova/bert-base-NER"
         );
+
         setIsModelLoading(false);
       } catch (error) {
         console.error("Error loading NER model:", error);
