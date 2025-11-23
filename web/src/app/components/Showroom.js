@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
+import ComingSoonModal from "./ComingSoonModal";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -11,6 +12,7 @@ const Showroom = () => {
   const scrollMainRef = useRef();
   const scrollTextRef = useRef();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -82,7 +84,7 @@ const Showroom = () => {
             />
           </div>
           <div className="hidden sm:block">
-            <Button bgColor="lime"> Enter Virtual Showroom</Button>
+            <Button bgColor="lime" onClick={() => setIsComingSoonOpen(true)}> Enter Virtual Showroom</Button>
           </div>
         </nav>
         <div className="w-full text-white h-[400px] sm:h-[300px] mask flex flex-col items-center sm:items-start text-center sm:text-left sm:flex-row justify-between sm:mt-[200px]">
@@ -100,7 +102,7 @@ const Showroom = () => {
               work, a campus ride, or a night out in the city
             </h1>
             <div className="block sm:hidden mt-40">
-            <Button bgColor="lime"> Enter Virtual Showroom</Button>
+            <Button bgColor="lime" onClick={() => setIsComingSoonOpen(true)}> Enter Virtual Showroom</Button>
           </div>
           </div>
         </div>
@@ -109,6 +111,10 @@ const Showroom = () => {
           <div className="absolute left-0 -bottom-1 w-37 sm:w-47 md:w-67 h-5 sm:h-6 md:h-8 bg-white [clip-path:polygon(0_0,_84%_0,_100%_100%,_0_100%)]"></div>
         </div>
       </div>
+      <ComingSoonModal
+        isOpen={isComingSoonOpen}
+        onClose={() => setIsComingSoonOpen(false)}
+      />
     </div>
   );
 };

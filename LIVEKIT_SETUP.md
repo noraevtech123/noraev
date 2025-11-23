@@ -12,28 +12,30 @@ A professional voice AI customer support system using LiveKit that:
 
 ```
 Frontend (Next.js) ←→ LiveKit Cloud ←→ LiveKit Agent (Python)
-                                           ├── Deepgram STT
-                                           ├── OpenAI LLM
-                                           └── OpenAI TTS
+                                           ├── Deepgram STT (FREE)
+                                           ├── Groq LLM (FREE)
+                                           └── Deepgram Aura TTS (FREE)
 ```
+
+**🎉 100% FREE SETUP!** Using only free services with generous credits.
 
 ## Setup Steps
 
 ### 1. Get Required API Keys
 
-You need 2 API keys (both have free tiers/cheap options):
+You need 2 API keys (both 100% FREE!):
 
-#### A. Deepgram (Speech-to-Text) - FREE $200 Credit
+#### A. Deepgram (STT + TTS) - FREE $200 Credit
 1. Go to https://deepgram.com
-2. Sign up
+2. Sign up for free account
 3. Get API key from dashboard
 4. Paste in `/server/livekit_agent/.env` as `DEEPGRAM_API_KEY`
 
-#### B. OpenAI (LLM + TTS) - ~$0.01 per conversation
-1. Go to https://platform.openai.com
-2. Sign up and add payment method
-3. Get API key
-4. Paste in `/server/livekit_agent/.env` as `OPENAI_API_KEY`
+#### B. Groq (LLM - Conversation Brain) - 100% FREE
+1. Go to https://console.groq.com
+2. Sign up for free account (no credit card required!)
+3. Get API key from dashboard
+4. Paste in `/server/livekit_agent/.env` as `GROQ_API_KEY`
 
 ### 2. Install Python Dependencies
 
@@ -91,8 +93,8 @@ npm run dev
    LIVEKIT_URL=wss://noraev-68hm4qni.livekit.cloud
    LIVEKIT_API_KEY=APIc9QdiYXUMea4
    LIVEKIT_API_SECRET=m9DUPRhAGZXJPjEt5fHVXnWHmHKtxAXdgBc4MOy5ueT
-   DEEPGRAM_API_KEY=your_key
-   OPENAI_API_KEY=your_key
+   DEEPGRAM_API_KEY=your_deepgram_key
+   GROQ_API_KEY=your_groq_key
    ```
 6. Set start command: `python agent.py start`
 7. Deploy!
@@ -110,11 +112,13 @@ npm run dev
 ## Costs
 
 - **LiveKit Cloud:** FREE (10K minutes/month)
-- **Deepgram:** FREE ($200 credit, then ~$0.0043/min)
-- **OpenAI:** ~$0.01-0.02 per conversation (gpt-4o-mini)
+- **Deepgram STT + TTS:** FREE ($200 credit = ~46,000 minutes!)
+- **Groq LLM:** 100% FREE (no credit card required)
 - **Hosting:** FREE (Railway/Render free tier)
 
-**Total: ~$0.01-0.02 per customer support call**
+**Total: $0.00 - Completely FREE! 🎉**
+
+Your Deepgram $200 credit gives you approximately 46,000 minutes of conversation time before you need to pay anything.
 
 ## Troubleshooting
 
@@ -127,8 +131,8 @@ npm run dev
 - Check console for errors
 
 ### "API key errors"
-- Verify Deepgram and OpenAI keys are correct in `.env`
-- Make sure you have credits in OpenAI account
+- Verify Deepgram and Groq keys are correct in `.env`
+- Make sure both API keys are active (both services are free!)
 
 ## Next Steps
 

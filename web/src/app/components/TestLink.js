@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const TestLink = ({ children, color = "black" }) => {
+const TestLink = ({ children, color = "black", onClick, className = "" }) => {
   const getTextColorClass = () => {
     switch (color) {
       case "white":
@@ -29,7 +29,11 @@ const TestLink = ({ children, color = "black" }) => {
   };
 
   return (
-    <div className={`poppins-semibold text-xs lg:text-xl flex items-center sm:gap-3 lg:gap-5 transition-all duration-300 ${getTextColorClass()}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`poppins-semibold text-xs lg:text-xl flex items-center sm:gap-3 lg:gap-5 transition-all duration-300 ${getTextColorClass()} ${className}`}
+    >
       {children}
       <Image
         src={getArrowColor()}
@@ -38,7 +42,7 @@ const TestLink = ({ children, color = "black" }) => {
         height={52}
         className="h-2 w-2 lg:h-4 lg:w-4"
       />
-    </div>
+    </button>
   );
 };
 

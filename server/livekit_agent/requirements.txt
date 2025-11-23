@@ -1,6 +1,6 @@
 livekit
 livekit-agents[codecs]
 livekit-plugins-deepgram
-livekit-plugins-openai
+livekit-plugins-groq
 livekit-plugins-silero
 python-dotenv

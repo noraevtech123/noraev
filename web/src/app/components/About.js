@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import TestLink from "./TestLink";
 import Image from "next/image";
+import { triggerPreorderForm } from "@/lib/uiEvents";
 
 const About = () => {
   return (
@@ -26,7 +28,9 @@ const About = () => {
               Together, we’re driving towards cleaner cities, energy
               independence, and a greener tomorrow.
             </p>
-            <TestLink color="lime">Test Drive</TestLink>
+            <TestLink color="lime" onClick={triggerPreorderForm}>
+              Test Drive
+            </TestLink>
           </div>
         </div>
       </div>

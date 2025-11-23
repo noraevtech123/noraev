@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
+import { triggerPreorderForm } from "@/lib/uiEvents";
 
 const Footer = () => {
   const navItems = ["ABOUT", "FEATURES", "SHOWROOM", "TEST DRIVE", "PRE-ORDER"];
@@ -14,9 +16,9 @@ const Footer = () => {
           Pre-Order Your NoRa EV Today
         </p>
         <div className="h-20 flex gap-5">
-          <Button bgColor="lime"> Pre Book Now</Button>
+          <Button bgColor="lime" onClick={triggerPreorderForm}> Pre Book Now</Button>
 
-          <Button bgColor="white"> Book a Test Drive</Button>
+          <Button bgColor="white" onClick={triggerPreorderForm}> Book a Test Drive</Button>
         </div>
       </div>
       <div className="w-full h-[1px] bg-white opacity-15"></div>
@@ -36,16 +38,26 @@ const Footer = () => {
             <div className="sm:hidden w-full flex flex-col gap-5">
               <div className="flex justify-center gap-5">
                 {navItems.slice(0, 3).map((item, i) => (
-                  <div key={i} className="font-conthrax text-[11px]">
+                  <button
+                    type="button"
+                    key={i}
+                    onClick={item === "TEST DRIVE" ? triggerPreorderForm : undefined}
+                    className="font-conthrax text-[11px]"
+                  >
                     {item}
-                  </div>
+                  </button>
                 ))}
               </div>
               <div className="flex justify-center gap-5">
                 {navItems.slice(3, 5).map((item, i) => (
-                  <div key={i + 3} className="font-conthrax text-[9px]">
+                  <button
+                    type="button"
+                    key={i + 3}
+                    onClick={item === "TEST DRIVE" ? triggerPreorderForm : undefined}
+                    className="font-conthrax text-[9px]"
+                  >
                     {item}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -53,12 +65,14 @@ const Footer = () => {
             {/* For larger screens: single row */}
             <div className="hidden sm:flex w-full justify-center gap-5">
               {navItems.map((item, i) => (
-                <div
+                <button
+                  type="button"
                   key={i}
+                  onClick={item === "TEST DRIVE" ? triggerPreorderForm : undefined}
                   className="font-conthrax text-[9px] lg:text-md xl:text-lg"
                 >
                   {item}
-                </div>
+                </button>
               ))}
             </div>
           </div>

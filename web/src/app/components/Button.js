@@ -1,7 +1,14 @@
 import Image from "next/image";
 import React from "react";
 
-const Button = ({ children, bgColor = "lime", onClick }) => {
+const Button = ({
+  children,
+  bgColor = "lime",
+  onClick,
+  type = "button",
+  disabled = false,
+  className = "",
+}) => {
   const getBgColorClass = () => {
     switch (bgColor) {
       case "white":
@@ -28,10 +35,23 @@ const Button = ({ children, bgColor = "lime", onClick }) => {
     }
   };
 
+  const combinedClassName = [
+    "h-[30px] md:h-[40px] lg:h-[58px]",
+    "px-2 md:px-3.5 lg:px-5",
+    "poppins-semibold text-[10px] md:text-[13px] lg:text-[18.5px]",
+    "flex items-center justify-center gap-2 md:gap-3 lg:gap-[14px]",
+    "transition-all duration-300",
+    getBgColorClass(),
+    disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
+    className,
+  ].join(" ");
+
   return (
     <button 
+      type={type}
       onClick={onClick}
-      className={`h-[30px] md:h-[40px] lg:h-[58px] px-2 md:px-3.5 lg:px-5 poppins-semibold text-[10px] md:text-[13px] lg:text-[18.5px] flex items-center justify-center gap-2 md:gap-3 lg:gap-[14px] cursor-pointer transition-all duration-300 ${getBgColorClass()}`}
+      disabled={disabled}
+      className={combinedClassName}
     >
       {children}{" "}
       <Image

@@ -4,26 +4,26 @@ This is the conversational voice AI agent for NoRa EV customer support.
 
 ## Setup
 
-### 1. Get API Keys (FREE tiers available)
+### 1. Get API Keys (100% FREE!)
 
-**Deepgram (Speech-to-Text) - FREE tier:**
+**Deepgram (Speech-to-Text + Text-to-Speech) - FREE:**
 1. Go to https://deepgram.com
 2. Sign up for free account
 3. Get API key from dashboard
-4. Free tier: $200 credit
+4. Free tier: $200 credit (~46,000 minutes!)
 
-**OpenAI (LLM + TTS) - CHEAP:**
-1. Go to https://platform.openai.com
-2. Create account and add payment method
-3. Get API key
-4. Cost: ~$0.01-0.02 per conversation (gpt-4o-mini is very cheap)
+**Groq (LLM - Conversation Brain) - 100% FREE:**
+1. Go to https://console.groq.com
+2. Sign up for free account (no credit card!)
+3. Get API key from dashboard
+4. Cost: $0.00 - completely free!
 
 ### 2. Update .env file
 
 Add your API keys to `/server/livekit_agent/.env`:
 ```
 DEEPGRAM_API_KEY=your_actual_key_here
-OPENAI_API_KEY=your_actual_key_here
+GROQ_API_KEY=your_actual_key_here
 ```
 
 ### 3. Install Dependencies

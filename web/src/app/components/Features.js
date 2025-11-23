@@ -1,5 +1,6 @@
 "use client";
 import { driveFeatures } from "@/lib/constants";
+import { triggerPreorderForm } from "@/lib/uiEvents";
 import gsap from "gsap";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
@@ -99,7 +100,9 @@ const Features = () => {
               in under 3 minutes. Stations are placed at existing petrol pumps
               across Lahore, making it effortless and accessible.
             </p>
-            <TestLink color="lime">Test Drive</TestLink>
+            <TestLink color="lime" onClick={triggerPreorderForm}>
+              Test Drive
+            </TestLink>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useRef } from "react";
 import TestLink from "./TestLink";
+import { triggerPreorderForm } from "@/lib/uiEvents";
 
 const environmentData = [
   {
@@ -74,7 +75,9 @@ const Environment = () => {
               </div>
               Pakistan
             </div>
-            <TestLink color="white">Pre Book</TestLink>
+            <TestLink color="white" onClick={triggerPreorderForm}>
+              Pre Book
+            </TestLink>
           </div>
           <div className="flex flex-col gap-y-7 pt-7">
             <div className="bg-white h-40 md:h-60 w-50 md:w-75 p-8 flex flex-col justify-between">
