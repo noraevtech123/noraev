@@ -16,9 +16,10 @@ load_dotenv()
 app = FastAPI(title="NoRa EV API", version="1.0.0")
 
 # CORS configuration
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,https://noraevtech.com").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://noraevtech.com"],
+    allow_origins=[origin.strip() for origin in allowed_origins],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
