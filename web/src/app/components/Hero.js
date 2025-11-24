@@ -457,7 +457,7 @@ const Hero = () => {
                     height={152}
                     className="h-32 w-2 lg:h-54 lg:w-5 "
                   />
-                  <p>Starting from PKR 2.5 - 3.5(depending on variant)</p>
+                  <p>Starting from PKR 2.5 - 3.0(depending on variant)</p>
                 </div>
               </div>
             </div>
