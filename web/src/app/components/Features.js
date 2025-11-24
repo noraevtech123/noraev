@@ -96,7 +96,7 @@ const Features = () => {
           </div>
           <div className="flex flex-col items-center sm:items-start gap-y-7 w-full sm:w-1/3">
             <p className=" text-xs md:text-md lg:text-lg text-gray-500">
-              With NoRa&apos;s robotic swapping stations you&apos;ll be back on the road
+              With NoRa&apos;s swapping stations you&apos;ll be back on the road
               in under 3 minutes. Stations are placed at existing petrol pumps
               across Lahore, making it effortless and accessible.
             </p>

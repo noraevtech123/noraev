@@ -2,25 +2,26 @@
 import Image from "next/image";
 import React, { useRef } from "react";
 import TestLink from "./TestLink";
-import { triggerPreorderForm } from "@/lib/uiEvents";
+
 
 const environmentData = [
   {
     heading: "Reduce Imports",
     description:
-      "Pakistan spends billions every year on oil imports. By switching to NoRa EV, we can cut down this heavy fuel dependency and keep our money flowing inside the country.",
+      "Switching to NoRa EV cuts down Pakistan’s fuel import costs and keeps money in the country.",
   },
   {
     heading: "Cleaner Air",
     description:
-      "Pakistan spends billions every year on oil imports. By switching to NoRa EV, we can cut down this heavy fuel dependency and keep our money flowing inside the country.",
+      "NoRa EV reduces emissions, helping cities breathe cleaner and healthier air.",
   },
   {
     heading: "Economic Growth",
     description:
-      "Electric vehicles create new job opportunities and boost local manufacturing, contributing to sustainable economic development in Pakistan.",
+      "EV adoption creates jobs and boosts local manufacturing for sustainable development.",
   },
 ];
+
 
 const Environment = () => {
   const scrollRef = useRef(null);
@@ -75,9 +76,7 @@ const Environment = () => {
               </div>
               Pakistan
             </div>
-            <TestLink color="white" onClick={triggerPreorderForm}>
-              Pre Book
-            </TestLink>
+            <TestLink color="white">Pre Book</TestLink>
           </div>
           <div className="flex flex-col gap-y-7 pt-7">
             <div className="bg-white h-40 md:h-60 w-50 md:w-75 p-8 flex flex-col justify-between">

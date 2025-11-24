@@ -1,8 +1,6 @@
-"use client";
 import React from "react";
 import TestLink from "./TestLink";
 import Image from "next/image";
-import { triggerPreorderForm } from "@/lib/uiEvents";
 
 const About = () => {
   return (
@@ -28,9 +26,7 @@ const About = () => {
               Together, we’re driving towards cleaner cities, energy
               independence, and a greener tomorrow.
             </p>
-            <TestLink color="lime" onClick={triggerPreorderForm}>
-              Test Drive
-            </TestLink>
+            <TestLink color="lime">Test Drive</TestLink>
           </div>
         </div>
       </div>
@@ -45,7 +41,7 @@ const About = () => {
               {i === 0 && (
                 <Image
                   className="object-cover"
-                  src="/about-img1.png" // Assumes images are in the public directory
+                  src="/nora-u-1.webp" // Assumes images are in the public directory
                   alt="Description for image 1"
                   layout="fill" // Good practice for containers with aspect-square
                   objectFit="cover" // Good practice to fill the container

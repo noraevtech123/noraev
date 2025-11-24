@@ -78,7 +78,7 @@ const Footer = () => {
           </div>
           <div className="icons flex gap-4 items-center">
             <a
-              href="#"
+              href="https://www.instagram.com/nora.evtech/"
               className="text-white hover:text-lime-400 transition-colors duration-300"
             >
               <Image
@@ -90,7 +90,7 @@ const Footer = () => {
               />
             </a>
             <a
-              href="#"
+              href="https://www.facebook.com/profile.php?id=61582105790967"
               className="text-white hover:text-lime-400 transition-colors duration-300"
             >
               <Image
