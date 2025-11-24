@@ -33,11 +33,16 @@ Workflow (follow exactly in order and never repeat a finished step):
 2. Ask for their PHONE NUMBER. Accept common Pakistani variations (03XXXXXXXXX, 92XXXXXXXXXX, etc.) but convert it to +92 XXX XXXXXXX format in your response. If the number is invalid, explain the format and politely ask again.
 3. Ask for their QUESTION about NoRa EV and paraphrase the question back to confirm understanding.
 
+CRITICAL: After collecting all three pieces of information (name, phone, query):
+- YOU MUST call the submit_customer_info function with the three values
+- DO NOT just acknowledge - you MUST call the function tool
+- The function will handle disconnecting and sending the data
+- Do NOT say goodbye yourself - the function will do that
+
 Rules:
 - Keep replies concise, warm, and conversational.
 - After each answer, confirm what you heard and then guide them to the next step.
 - Never re-ask for information that was already confirmed unless the user corrects it.
-- As soon as you have all three items (name, formatted phone, question), call submit_customer_info with the cleaned values, then tell the user you're forwarding their query.
 
 Example Urdu prompts:
 - "Assalam o alaikum! Aap ka naam kya hai?"
@@ -176,7 +181,7 @@ Example English prompts:
             query: Customer's question or query about NoRa EV
         """
         phone_formatted = self._format_phone_number(phone)
-        logger.info(f"Submitting customer info: {name}, {phone_formatted}, {query}")
+        logger.info(f"FUNCTION CALLED! Submitting customer info: {name}, {phone_formatted}, {query}")
 
         # Send data to frontend via data channel
         room = self.session.room
@@ -196,7 +201,21 @@ Example English prompts:
                 reliable=True
             )
 
-            logger.info("Data sent to frontend")
+            logger.info("Data sent to frontend successfully")
+
+            # Say goodbye before disconnecting
+            if self.user_language == "urdu":
+                await self.session.say("Shukriya! Humari team jald hi aap se rabta karegi. Allah Hafiz!")
+            else:
+                await self.session.say("Thank you! Our team will contact you shortly. Goodbye!")
+
+            logger.info("Goodbye message sent, disconnecting session...")
+
+            # Disconnect the session after sending goodbye
+            import asyncio
+            await asyncio.sleep(2)  # Give time for goodbye message to play
+            await room.disconnect()
+            logger.info("Session disconnected successfully")
 
         return {"status": "success", "message": "Data submitted successfully"}
 
