@@ -45,7 +45,7 @@ const About = () => {
               {i === 0 && (
                 <Image
                   className="object-cover"
-                  src="/about-img1.png" // Assumes images are in the public directory
+                  src="/nora-u-1.webp" // Assumes images are in the public directory
                   alt="Description for image 1"
                   layout="fill" // Good practice for containers with aspect-square
                   objectFit="cover" // Good practice to fill the container

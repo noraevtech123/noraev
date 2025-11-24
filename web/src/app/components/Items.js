@@ -69,15 +69,15 @@ const Items = () => {
               Top Speed
             </h1>
             <h1 className="text-black text-[18px] sm:text-xl md:text-2xl lg:text-3xl font-conthrax">
-              80-90 <span className="text-sm md:text-lg lg:text-xl">km/h</span>
+              65 <span className="text-sm md:text-lg lg:text-xl">km/h</span>
             </h1>
           </div>
           <div className="flex flex-col gap-2 ">
             <h1 className="text-gray-400 text-[10px] sm:text-xs md:text-md">
-              Top Speed
+
             </h1>
             <h1 className="text-black text-[18px] sm:text-xl md:text-2xl lg:text-3xl font-conthrax">
-              80-90 <span className="text-sm md:text-lg lg:text-xl">km/h</span>
+            {/* <span className="text-sm md:text-lg lg:text-xl">km/h</span> */}
             </h1>
           </div>
         </div>

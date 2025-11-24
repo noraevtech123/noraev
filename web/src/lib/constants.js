@@ -13,7 +13,7 @@ export const features = [
   },
   {
     "heading": "Smooth Performance",
-    "para": "Quiet acceleration with zero emissions."
+    "para": "120 km pure electric range, expandable to 300 km with our Range Extender"
   },
   {
     "heading": "Digital Dashboard",
@@ -21,12 +21,13 @@ export const features = [
   },
   {
     "heading": "Safe by Design",
-    "para": "Built with commuters and families in mind."
+    "para": "Designed for everyday commuters and families, featuring a reliable 6–8 hour full-charge cycle."
   },
   {
     "heading": "Connected Ecosystem",
-    "para": "Swap stations at petrol pumps for easy access."
+    "para": "Swap stations at petrol pumps for easy access"
   }
+
 ];
 
 export const driveFeatures = [
@@ -44,4 +45,4 @@ export const driveFeatures = [
   }
 ]
 
-export const views = ["Front", "Back", "Top", "Bottom", "Left", "Right"];
+export const views = ["Front", "Back",  "Left", "Right"];

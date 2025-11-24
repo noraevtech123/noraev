@@ -8,17 +8,17 @@ const environmentData = [
   {
     heading: "Reduce Imports",
     description:
-      "Pakistan spends billions every year on oil imports. By switching to NoRa EV, we can cut down this heavy fuel dependency and keep our money flowing inside the country.",
+      "Switching to NoRa EV cuts down Pakistan's fuel import costs and keeps money in the country.",
   },
   {
     heading: "Cleaner Air",
     description:
-      "Pakistan spends billions every year on oil imports. By switching to NoRa EV, we can cut down this heavy fuel dependency and keep our money flowing inside the country.",
+      "NoRa EV reduces emissions, helping cities breathe cleaner and healthier air.",
   },
   {
     heading: "Economic Growth",
     description:
-      "Electric vehicles create new job opportunities and boost local manufacturing, contributing to sustainable economic development in Pakistan.",
+      "EV adoption creates jobs and boosts local manufacturing for sustainable development.",
   },
 ];
 
