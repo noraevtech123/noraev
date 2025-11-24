@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, validator
 import resend
 import os
+import logging
 from dotenv import load_dotenv
 from email_templates import (
     get_user_confirmation_email,
@@ -10,6 +11,10 @@ from email_templates import (
     get_support_user_email,
     get_support_admin_email
 )
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -135,14 +140,18 @@ async def submit_pre_order(request: PreOrderRequest):
 
 @app.post("/api/customer-support")
 async def submit_customer_support(request: CustomerSupportRequest):
+    logger.info(f"Received customer support request from {request.name}, phone: {request.phone}")
+
     try:
         # Send confirmation email to user
+        logger.info("Generating user confirmation email...")
         user_email_html = get_support_user_email(
             name=request.name,
             phone=request.phone,
             query=request.query
         )
 
+        logger.info(f"Sending user confirmation email to info@noraevtech.com...")
         user_email = resend.Emails.send({
             "from": "NoRa EV Support <info@noraevtech.com>",
             "to": ["info@noraevtech.com"],  # Will be sent to admin, user doesn't provide email
@@ -150,21 +159,26 @@ async def submit_customer_support(request: CustomerSupportRequest):
             "html": user_email_html,
             "reply_to": "info@noraevtech.com"
         })
+        logger.info(f"User email sent successfully. Email ID: {user_email.get('id', 'N/A')}")
 
         # Send notification email to admin
+        logger.info("Generating admin notification email...")
         admin_email_html = get_support_admin_email(
             name=request.name,
             phone=request.phone,
             query=request.query
         )
 
+        logger.info(f"Sending admin notification email to info@noraevtech.com...")
         admin_email = resend.Emails.send({
             "from": "NoRa EV System <info@noraevtech.com>",
             "to": ["info@noraevtech.com"],
             "subject": f"New Customer Support Query: {request.name}",
             "html": admin_email_html
         })
+        logger.info(f"Admin email sent successfully. Email ID: {admin_email.get('id', 'N/A')}")
 
+        logger.info(f"Customer support request completed successfully for {request.name}")
         return {
             "success": True,
             "message": "Customer support query submitted successfully",
@@ -175,6 +189,7 @@ async def submit_customer_support(request: CustomerSupportRequest):
         }
 
     except Exception as e:
+        logger.error(f"Failed to process customer support query: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to process customer support query: {str(e)}")
 
 
