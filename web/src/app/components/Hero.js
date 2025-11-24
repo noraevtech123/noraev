@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { features } from "@/lib/constants";
 import TestLink from "./TestLink";
 import { PREORDER_EVENT } from "@/lib/uiEvents";
+import { Phone } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -231,7 +232,9 @@ const Hero = () => {
                 />
               </div>
               <div className="z-20 flex gap-2 md:gap-3">
-                <Button onClick={() => setIsSupportModalOpen(true)}>Customer Support</Button>
+                <Button onClick={() => setIsSupportModalOpen(true)}>
+                  <Phone className="w-4 h-4 md:w-5 md:h-5" />
+                </Button>
                 <Button onClick={openPreOrderForm}>Pre-Order</Button>
               </div>
             </nav>
@@ -457,7 +460,7 @@ const Hero = () => {
                     height={152}
                     className="h-32 w-2 lg:h-54 lg:w-5 "
                   />
-                  <p>Starting from PKR 2.5 - 3.0(depending on variant)</p>
+                  <p>Starting from PKR 2.5M - 3.0M (depending on variant)</p>
                 </div>
               </div>
             </div>

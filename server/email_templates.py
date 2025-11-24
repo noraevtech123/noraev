@@ -84,7 +84,7 @@ def get_user_confirmation_email(name: str, email: str, phone: str, city: str) ->
                                     </h3>
                                     <ul style="margin: 0; padding-left: 20px; color: #ffffff; font-size: 14px; line-height: 1.8;">
                                         <li>Battery-swappable technology for quick charging</li>
-                                        <li>Affordable pricing: PKR 3.5M - 4.5M</li>
+                                        <li>Affordable pricing: PKR 2.5M - 3.0M</li>
                                         <li>Zero fuel expenses</li>
                                         <li>Environmentally friendly</li>
                                         <li>Designed for Pakistani roads and lifestyle</li>
