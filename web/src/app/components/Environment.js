@@ -106,7 +106,7 @@ const Environment = () => {
       <div
         ref={scrollRef}
         onMouseDown={handleMouseDown}
-        className=" w-full h-[70vh] sm:h-[45vh] sm:w-[150vw] items-center sm:items-end flex flex-col sm:flex-row gap-10 sm:overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none"
+        className=" w-full h-[70vh] sm:h-[45vh] sm:w-[100vw] items-center sm:items-center  flex flex-col sm:flex-row gap-10  scrollbar-hide cursor-grab active:cursor-grabbing select-none"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -115,7 +115,7 @@ const Environment = () => {
         {environmentData.map((item, i) => (
           <div
             key={i}
-            className="w-[340px] sm:w-[600px] md:w-[500px] h-[240px] sm:h-[120px] md:h-[220px] p-4 flex  relative overflow-hidden border-[1px] backdrop-blur-sm border-white/40"
+            className="w-[340px] sm:w-[570px] md:w-[250px] lg:w-[450px] h-[240px] sm:h-[120px] md:h-[150px] lg:h-[220px] p-4 flex  relative overflow-hidden border-[1px] backdrop-blur-sm border-white/40"
             style={{
               background: "rgba(255, 255, 255, 0.1)",
               backdropFilter: "blur(10px)",
@@ -125,11 +125,11 @@ const Environment = () => {
             <div className="h-full aspect-square hero-bg"></div>
 
             <div className="relative z-10 p-4 sm:p-2 lg:p-8 h-full flex flex-col justify-center text-white">
-              <h2 className="text-[16px] sm:text-[10px] sm:leading-0 md:leading-tight md:text-[23px] mb-4">
+              <h2 className="text-[16px] sm:text-[10px] sm:leading-0 md:leading-tight md:text-[14px] lg:text-[23px] mb-4">
                 {item.heading}
               </h2>
               <div className=" bg-white w-full min-h-[0.5px] lg:min-h-[1px] opacity-30"></div>
-              <p className="text-[7px] sm:text-[7px] md:text-xs leading-relaxed mt-3 md:mt-5  opacity-90">
+              <p className="text-[7px] sm:text-[7px] md:text-[5.5px] lg:text-[12px] md:text-xs leading-relaxed mt-3 md:mt-5  opacity-90">
                 {item.description}
               </p>
             </div>

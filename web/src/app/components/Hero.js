@@ -20,6 +20,7 @@ const Hero = () => {
   const formRef = useRef(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [preOrderData, setPreOrderData] = useState({
     name: "",
     email: "",
@@ -277,16 +278,20 @@ const Hero = () => {
               </div>
 
               <div className="h-[25%] sm:h-[30%] lg:h-[40%] w-[200px]  sm:w-[180px] lg:w-[300px] relative  flex gap-2">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="h-full w-full sm:w-[75%]  bg-black">
+                {[1, 2, 3].map((num) => (
+                  <button
+                    key={num}
+                    onClick={() => setSelectedImage(num)}
+                    className="h-full w-full z-20 sm:w-[75%] bg-black cursor-pointer hover:opacity-80 transition-opacity"
+                  >
                     <Image
-                      src="/hero-mini-img.png"
-                      alt="NoRa EV Logo"
+                      src={`/hero-img-${num}.png`}
+                      alt={`NoRa EV Image ${num}`}
                       width={152}
                       height={152}
-                      className="w-full object-cover "
+                      className="w-full h-full object-cover"
                     />
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -499,6 +504,33 @@ const Hero = () => {
         isOpen={isSupportModalOpen}
         onClose={() => setIsSupportModalOpen(false)}
       />
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors z-60 text-3xl font-light"
+          >
+            ×
+          </button>
+          <div
+            className="relative h-[90vh] w-[90vw] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={`/hero-img-${selectedImage}.png`}
+              alt={`NoRa EV Image ${selectedImage}`}
+              width={1200}
+              height={800}
+              className="w-auto h-full object-cover object-bottom rounded-lg"
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };
