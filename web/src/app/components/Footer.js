@@ -16,7 +16,10 @@ const Footer = () => {
           Pre-Order Your NoRa EV Today
         </p>
         <div className="h-20 flex gap-5">
-          <Button bgColor="lime" onClick={triggerPreorderForm}> Pre Book Now</Button>
+          <Button bgColor="lime" onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => triggerPreorderForm(), 500);
+          }}> Pre Book Now</Button>
 
           <Button bgColor="white" onClick={triggerPreorderForm}> Book a Test Drive</Button>
         </div>

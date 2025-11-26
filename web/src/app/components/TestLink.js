@@ -32,7 +32,7 @@ const TestLink = ({ children, color = "black", onClick, className = "" }) => {
     <button
       type="button"
       onClick={onClick}
-      className={`poppins-semibold text-xs lg:text-xl flex items-center sm:gap-3 lg:gap-5 transition-all duration-300 ${getTextColorClass()} ${className}`}
+      className={`poppins-semibold text-xs lg:text-xl flex items-center cursor-pointer sm:gap-3 lg:gap-5 transition-all duration-300 ${getTextColorClass()} ${className}`}
     >
       {children}
       <Image

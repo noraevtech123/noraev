@@ -75,12 +75,17 @@ const Environment = () => {
               </div>
               Pakistan
             </div>
-            <TestLink color="white" onClick={triggerPreorderForm}>
+            <div className="z-20">
+            <TestLink color="white" onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setTimeout(() => triggerPreorderForm(), 500);
+            }}>
               Pre Book
             </TestLink>
+            </div>
           </div>
           <div className="flex flex-col gap-y-7 pt-7">
-            <div className="bg-white h-40 md:h-60 w-50 md:w-75 p-8 flex flex-col justify-between">
+            <div className="bg-white h-40  md:h-60 w-60 md:w-75 p-8 flex flex-col items-center sm:items-start justify-between">
               <Image
                 src="/horizontal-logo.svg"
                 alt="NoRa EV Logo"

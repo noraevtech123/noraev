@@ -100,8 +100,11 @@ const Features = () => {
               in under 3 minutes. Stations are placed at existing petrol pumps
               across Lahore, making it effortless and accessible.
             </p>
-            <TestLink color="lime" onClick={triggerPreorderForm}>
-              Test Drive
+            <TestLink color="lime" onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setTimeout(() => triggerPreorderForm(), 500);
+            }}>
+              Pre-Book Now
             </TestLink>
           </div>
         </div>

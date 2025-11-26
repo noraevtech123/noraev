@@ -8,9 +8,10 @@ const About = () => {
   return (
     <div className="h-[250vh]  sm:h-[140vh] md:h-[190vh] w-full bg-white p-10 relative">
       <div className="h-[70vh] sm:h-[90vh] w-full flex items-center justify-between">
-        <div 
-        className="flex flex-col items-center sm:items-start text-center sm:text-left sm:flex-row 
-        sm:items-left w-full justify-between leading-tight sm:leading-normal gap-y-10 sm:gap-y-0">
+        <div
+          className="flex flex-col items-center sm:items-start text-center sm:text-left sm:flex-row 
+        sm:items-left w-full justify-between leading-tight sm:leading-normal gap-y-10 sm:gap-y-0"
+        >
           <div className="h-full mt-2">
             <h1 className="text-gray-400 text-[10px] md:text-sm lg:text-lg font-conthrax">
               MADE FOR PAKISTAN
@@ -52,13 +53,20 @@ const About = () => {
                 />
               )}
               {i === 1 && (
-                <Image
-                  className="object-cover"
-                  src="/about-svg1.svg"
-                  alt="Description for SVG 1"
-                  layout="fill"
-                  // Often better for SVGs unless you need to cover
-                />
+                <div className="bg-[#333333] px-6 py-8 text-white h-full w-full flex flex-col justify-between">
+                  <div className="flex flex-col space-y-4">
+                    <h1 className="text-5xl xl:text-5xl sm:text-sm md:text-2xl lg:text-4xl font-conthrax ">
+                      7%
+                    </h1>
+                    <p className="text-lg xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
+                      Cheaper to run than traditional cars.
+                    </p>
+                  </div>
+                  <p className="text-md xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-200">
+                    With no petrol stops and reduced upkeep, NoRa EV keeps your
+                    running costs lighter than any conventional car.
+                  </p>
+                </div>
               )}
               {i === 2 && (
                 <Image
@@ -70,12 +78,21 @@ const About = () => {
                 />
               )}
               {i === 3 && (
-                <Image
-                  className="object-cover"
-                  src="/about-svg2.svg"
-                  alt="Description for SVG 2"
-                  layout="fill"
-                />
+                <div className="bg-[#bfff00] px-6 py-8 text-black h-full w-full flex flex-col justify-between">
+                  <div className="flex flex-col space-y-4">
+                    <h1 className="text-5xl xl:text-5xl sm:text-sm md:text-2xl lg:text-4xl font-conthrax ">
+                      52%
+                    </h1>
+                    <p className="text-lg xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
+                      Savings on lifetime costs compared to petrol
+                      bikes & rickshaws.
+                    </p>
+                  </div>
+                  <p className="text-md xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-600">
+                    With no petrol stops and reduced upkeep, NoRa EV keeps your
+                    running costs lighter than any conventional car.
+                  </p>
+                </div>
               )}
             </div>
           ))}
