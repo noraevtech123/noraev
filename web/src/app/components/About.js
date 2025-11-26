@@ -25,13 +25,20 @@ const About = () => {
               independence from costly fuel imports and polluted streets.
             </p>
             <p className="text-gray-400">
-              NoRa EV is Pakistan’s first battery-swappable electric car.
-              Together, we’re driving towards cleaner cities, energy
+              NoRa EV is Pakistan's first battery-swappable electric car.
+              Together, we're driving towards cleaner cities, energy
               independence, and a greener tomorrow.
             </p>
-            <TestLink color="lime" onClick={triggerPreorderForm}>
+            <div className="z-20">
+
+              <TestLink color="lime" onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setTimeout(() => triggerPreorderForm(), 500);
+            }}>
               Test Drive
             </TestLink>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -55,14 +62,14 @@ const About = () => {
               {i === 1 && (
                 <div className="bg-[#333333] px-6 py-8 text-white h-full w-full flex flex-col justify-between">
                   <div className="flex flex-col space-y-4">
-                    <h1 className="text-5xl xl:text-5xl sm:text-sm md:text-2xl lg:text-4xl font-conthrax ">
+                    <h1 className="text-4xl xl:text-5xl sm:text-sm md:text-2xl lg:text-4xl font-conthrax ">
                       7%
                     </h1>
-                    <p className="text-lg xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
+                    <p className="text-md xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
                       Cheaper to run than traditional cars.
                     </p>
                   </div>
-                  <p className="text-md xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-200">
+                  <p className="text-xs xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-200">
                     With no petrol stops and reduced upkeep, NoRa EV keeps your
                     running costs lighter than any conventional car.
                   </p>
@@ -80,15 +87,15 @@ const About = () => {
               {i === 3 && (
                 <div className="bg-[#bfff00] px-6 py-8 text-black h-full w-full flex flex-col justify-between">
                   <div className="flex flex-col space-y-4">
-                    <h1 className="text-5xl xl:text-5xl sm:text-sm md:text-2xl lg:text-4xl font-conthrax ">
+                    <h1 className="text-4xl xl:text-5xl sm:text-sm md:text-2xl lg:text-4xl font-conthrax ">
                       52%
                     </h1>
-                    <p className="text-lg xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
+                    <p className="text-md xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
                       Savings on lifetime costs compared to petrol
                       bikes & rickshaws.
                     </p>
                   </div>
-                  <p className="text-md xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-600">
+                  <p className="text-xs xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-600">
                     With no petrol stops and reduced upkeep, NoRa EV keeps your
                     running costs lighter than any conventional car.
                   </p>

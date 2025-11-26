@@ -34,7 +34,7 @@ const Items = () => {
 
   const getImageSrc = () => {
     if (isInterior) {
-      return `/interior-${interiorIndex}.jpg`;
+      return `/interior-${interiorIndex}.png`;
     }
     const colorName = carColors[selectedColor].name;
     const viewName = views[selectedView]?.toLowerCase() || "front";
@@ -138,7 +138,7 @@ const Items = () => {
               Every Angle
             </h1>
           </div>
-          <div className="flex flex-col gap-y-7 pt-0 md:pt-7 relative">
+          <div className="flex flex-col gap-y-7 pt-0 md:pt-7 relative z-20">
             <button 
               onClick={handleVideoClick}
               className="bg-gray-900 h-35 md:h-30 w-64 md:w-54 cursor-pointer hover:opacity-90 transition-opacity"
@@ -181,7 +181,7 @@ const Items = () => {
           </div>
         </div>
         <div className={`w-[80%] md:w-[60%] -z-10 absolute top-[30%] sm:top-[15%] lg:-top-[15%] left-1/2 -translate-x-1/2 ${isInterior ? 'mt-[100px]  lg:mt-[150px]' : 'mt-[0px]'}`}>
-          {!isInterior && !isColorAvailable() ? (
+          {!isColorAvailable() ? (
             <div className="w-full h-full flex items-center justify-center">
               <h2 className="text-2xl md:text-4xl lg:text-5xl font-conthrax text-gray-400 text-center px-4 mt-[100px] md:mt-[200px] lg:mt-[300px]">
                 New Variation <br />Coming Soon
@@ -215,7 +215,7 @@ const Items = () => {
           ))}
         </div>
       </div>
-      <div className="h-[25vh] mt-0 sm:mt-30 w-full flex justify-between items-center">
+      <div className="h-[20vh] sm:h-[25vh] mt-10 sm:mt-30 w-full flex flex-col sm:flex-row justify-between items-center">
         <div className="h-14 md:h-10 lg:h-14 w-full sm:w-54 md:w-35 lg:w-55 text-md md:text-sm lg:text-md p-2 flex bg-black">
           <button
             ref={exteriorRef}
@@ -232,7 +232,7 @@ const Items = () => {
             Interior
           </button>
         </div>
-        <div className="hidden md:flex gap-3 h-fit">
+        <div className="flex gap-3 h-fit">
           {isInterior ? (
             <>
               <button

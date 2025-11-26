@@ -331,7 +331,7 @@ const Hero = () => {
 
                 {/* Form Header */}
                 <div className="flex flex-col text-white mb-8 mt-14 sm:mt-0">
-                  <h1 className="font-conthrax text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4">
+                  <h1 className="font-conthrax text-xl sm:text-3xl md:text-4xl lg:text-5xl mb-4">
                     NoRa EV - Nayi <br></br>Soch, Naya Safar
                   </h1>
                   <p className="text-gray-300 text-[9px] sm:text-[10px] lg:text-[17px]">
@@ -350,7 +350,7 @@ const Hero = () => {
                     {/* First Row - Two inputs side by side */}
                     <div className="flex flex-col sm:flex-row space-y-13 sm:space-y-0 sm:gap-4">
                       <div className="flex-1">
-                        <label className="block text-white text-sm mb-2">
+                        <label className="block text-white text-xs sm:text-sm mb-1 sm:mb-2">
                           Name
                         </label>
                         <input
@@ -359,11 +359,11 @@ const Hero = () => {
                           value={preOrderData.name}
                           onChange={handleInputChange("name")}
                           required
-                          className="w-full bg-transparent border-b border-gray-600 pb-2 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
+                          className="w-full bg-transparent border-b border-gray-600 pb-1 sm:pb-2 text-xs sm:text-base text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
                         />
                       </div>
                       <div className="flex-1">
-                        <label className="block text-white text-sm mb-2">
+                        <label className="block text-white text-xs sm:text-sm mb-1 sm:mb-2">
                           Email
                         </label>
                         <input
@@ -372,14 +372,14 @@ const Hero = () => {
                           value={preOrderData.email}
                           onChange={handleInputChange("email")}
                           required
-                          className="w-full bg-transparent border-b border-gray-600 pb-2 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
+                          className="w-full bg-transparent border-b border-gray-600 pb-1 sm:pb-2 text-xs sm:text-base text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
                         />
                       </div>
                     </div>
 
                     {/* Second Row - Single input */}
                     <div>
-                      <label className="block text-white text-sm mb-2">
+                      <label className="block text-white text-xs sm:text-sm mb-1 sm:mb-2">
                         Phone
                       </label>
                       <input
@@ -388,13 +388,13 @@ const Hero = () => {
                         value={preOrderData.phone}
                         onChange={handleInputChange("phone")}
                         required
-                        className="w-full bg-transparent border-b border-gray-600 pb-2 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
+                        className="w-full bg-transparent border-b border-gray-600 pb-1 sm:pb-2 text-xs sm:text-base text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
                       />
                     </div>
 
                     {/* Third Row - Single input */}
                     <div>
-                      <label className="block text-white text-sm mb-2">
+                      <label className="block text-white text-xs sm:text-sm mb-1 sm:mb-2">
                         City
                       </label>
                       <input
@@ -403,12 +403,12 @@ const Hero = () => {
                         value={preOrderData.city}
                         onChange={handleInputChange("city")}
                         required
-                        className="w-full bg-transparent border-b border-gray-600 pb-2 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
+                        className="w-full bg-transparent border-b border-gray-600 pb-1 sm:pb-2 text-xs sm:text-base text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
                   {/* Submit Button */}
-                  <div className="flex flex-col items-end gap-3 pt-4 mt-20  sm:mt-2 border-t border-white/20">
+                  <div className="flex flex-col items-end gap-3 pt-4   sm:mt-2 border-t border-white/20">
                     <Button
                       bgColor="lime"
                       type="submit"
@@ -518,7 +518,7 @@ const Hero = () => {
             ×
           </button>
           <div
-            className="relative h-[90vh] w-[90vw] overflow-hidden"
+            className="relative h-[30vh] sm:h-[90vh] w-[90vw] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
