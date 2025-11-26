@@ -248,7 +248,7 @@ const Hero = () => {
                 NoRa EV - Nayi <br></br>Soch, Naya Safar
               </h1>
               <p className="text-gray-600 text-[9px] sm:text-[10px] lg:text-lg">
-                Pakistan's first battery-swappable electric car. Affordable,
+                Pakistan&apos;s first battery-swappable electric car. Affordable,
                 <br /> stylish, and ready to change the way we move.
               </p>
               <div className="z-20">
