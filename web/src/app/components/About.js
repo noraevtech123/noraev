@@ -19,14 +19,14 @@ const About = () => {
           </div>
           <div className="flex flex-col w-full items-center sm:items-start sm:w-2/3 justify-between gap-y-7">
             <p className="  text-lg md:text-3xl lg:text-[40px] lg:leading-14">
-              NoRa EV is more than a car, it’s a movement. Built for our cities,
+              NoRa EV is more than a car, it&apos;s a movement. Built for our cities,
               our people, and our future. Compact, safe, and powered by
-              Pakistan’s own surplus electricity, NoRa is paving the way for
+              Pakistan&apos;s own surplus electricity, NoRa is paving the way for
               independence from costly fuel imports and polluted streets.
             </p>
             <p className="text-gray-400">
-              NoRa EV is Pakistan's first battery-swappable electric car.
-              Together, we're driving towards cleaner cities, energy
+              NoRa EV is Pakistan&apos;s first battery-swappable electric car.
+              Together, we&apos;re driving towards cleaner cities, energy
               independence, and a greener tomorrow.
             </p>
             <div className="z-20">
