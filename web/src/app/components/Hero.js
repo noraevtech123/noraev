@@ -250,6 +250,7 @@ const Hero = () => {
               <p className="text-gray-600 text-[9px] sm:text-[10px] lg:text-lg">
                 Pakistan&apos;s first battery-swappable electric car. Affordable,
                 <br /> stylish, and ready to change the way we move.
+                    Contact us : info@noraevtech.com
               </p>
               <div className="z-20">
                 <TestLink onClick={openPreOrderForm}>Test Drive</TestLink>
