@@ -42,7 +42,9 @@ const Items = () => {
   };
 
   const handlePrevInterior = () => {
-    setInteriorIndex((prev) => ((prev - 2 + totalInteriorImages) % totalInteriorImages) + 1);
+    setInteriorIndex(
+      (prev) => ((prev - 2 + totalInteriorImages) % totalInteriorImages) + 1
+    );
   };
 
   const handleNextInterior = () => {
@@ -57,7 +59,7 @@ const Items = () => {
       gsap.to(imageRef.current, {
         scale: newZoom,
         duration: 0.5,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     }
   };
@@ -69,7 +71,7 @@ const Items = () => {
       gsap.to(imageRef.current, {
         scale: newZoom,
         duration: 0.5,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     }
   };
@@ -93,13 +95,13 @@ const Items = () => {
         backgroundColor: "#000000",
         color: "#ffffff",
         duration: 0.4,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
       gsap.to(interiorRef.current, {
         backgroundColor: "#d1d5db",
         color: "#000000",
         duration: 0.4,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
     } else {
       // Animate to Exterior state
@@ -107,13 +109,13 @@ const Items = () => {
         backgroundColor: "#d1d5db",
         color: "#000000",
         duration: 0.4,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
       gsap.to(interiorRef.current, {
         backgroundColor: "#000000",
         color: "#ffffff",
         duration: 0.4,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
     }
   }, [isInterior]);
@@ -123,14 +125,14 @@ const Items = () => {
       <div className="w-full h-[35vh] flex justify-between">
         <div className="w-full flex flex-col md:flex-row items-center justify-between relative gap-16">
           <div className="h-fit w-full absolute -top-5">
-                    <Image
-                      src="/items-opacity-header.svg"
-                      alt="NoRa EV Logo"
-                      width={1002}
-                      height={1002}
-                      className=" w-full  "
-                    />
-                  </div>
+            <Image
+              src="/items-opacity-header.svg"
+              alt="NoRa EV Logo"
+              width={1002}
+              height={1002}
+              className=" w-full  "
+            />
+          </div>
           <div className="flex flex-col gap-y-2 mt-10 md:mt-0 md:gap-y-7 items-center md:items-start md:items-left font-conthrax w-full md:w-2/3">
             <h1 className="text-lime-400 text-lg">360 VIEW</h1>
             <h1 className="text-black text-center md:text-left text-[25px] md:text-2xl lg:text-6xl">
@@ -139,7 +141,7 @@ const Items = () => {
             </h1>
           </div>
           <div className="flex flex-col gap-y-7 pt-0 md:pt-7 relative z-20">
-            <button 
+            <button
               onClick={handleVideoClick}
               className="bg-gray-900 h-35 md:h-30 w-64 md:w-54 cursor-pointer hover:opacity-90 transition-opacity"
             >
@@ -172,19 +174,22 @@ const Items = () => {
             </h1>
           </div>
           <div className="flex flex-col gap-2 ">
-            <h1 className="text-gray-400 text-[10px] sm:text-xs md:text-md">
-
-            </h1>
+            <h1 className="text-gray-400 text-[10px] sm:text-xs md:text-md"></h1>
             <h1 className="text-black text-[18px] sm:text-xl md:text-2xl lg:text-3xl font-conthrax">
-            {/* <span className="text-sm md:text-lg lg:text-xl">km/h</span> */}
+              {/* <span className="text-sm md:text-lg lg:text-xl">km/h</span> */}
             </h1>
           </div>
         </div>
-        <div className={`w-[80%] md:w-[60%] -z-10 absolute top-[30%] sm:top-[15%] lg:-top-[15%] left-1/2 -translate-x-1/2 ${isInterior ? 'mt-[100px]  lg:mt-[150px]' : 'mt-[0px]'}`}>
+        <div
+          className={`w-[80%] md:w-[60%] -z-10 absolute top-[30%] sm:top-[15%] lg:-top-[15%] left-1/2 -translate-x-1/2 ${
+            isInterior ? "mt-[100px]  lg:mt-[150px]" : "mt-[0px]"
+          }`}
+        >
           {!isColorAvailable() ? (
             <div className="w-full h-full flex items-center justify-center">
               <h2 className="text-2xl md:text-4xl lg:text-5xl font-conthrax text-gray-400 text-center px-4 mt-[100px] md:mt-[200px] lg:mt-[300px]">
-                New Variation <br />Coming Soon
+                New Variation <br />
+                Coming Soon
               </h2>
             </div>
           ) : (
@@ -265,7 +270,7 @@ const Items = () => {
           )}
         </div>
         <div className="hidden sm:flex gap-3 justify-end w-45">
-          <button 
+          <button
             onClick={handleZoomIn}
             className="bg-gray-200 h-11 w-11 rounded-full flex items-center justify-center hover:bg-gray-300 transition-all"
           >
@@ -277,7 +282,7 @@ const Items = () => {
               className="h-6  "
             />
           </button>
-          <button 
+          <button
             onClick={handleZoomOut}
             disabled={zoomLevel <= 1}
             className="bg-gray-200 h-11 w-11 rounded-full flex items-center justify-center hover:bg-gray-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"

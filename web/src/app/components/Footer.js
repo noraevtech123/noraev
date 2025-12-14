@@ -16,12 +16,21 @@ const Footer = () => {
           Pre-Order Your NoRa EV Today
         </p>
         <div className="h-20 flex gap-5">
-          <Button bgColor="lime" onClick={() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(() => triggerPreorderForm(), 500);
-          }}> Pre Book Now</Button>
+          <Button
+            bgColor="lime"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              setTimeout(() => triggerPreorderForm(), 500);
+            }}
+          >
+            {" "}
+            Pre Book Now
+          </Button>
 
-          <Button bgColor="white" onClick={triggerPreorderForm}> Book a Test Drive</Button>
+          <Button bgColor="white" onClick={triggerPreorderForm}>
+            {" "}
+            Book a Test Drive
+          </Button>
         </div>
       </div>
       <div className="w-full h-[1px] bg-white opacity-15"></div>
@@ -44,7 +53,9 @@ const Footer = () => {
                   <button
                     type="button"
                     key={i}
-                    onClick={item === "TEST DRIVE" ? triggerPreorderForm : undefined}
+                    onClick={
+                      item === "TEST DRIVE" ? triggerPreorderForm : undefined
+                    }
                     className="font-conthrax text-[11px]"
                   >
                     {item}
@@ -56,7 +67,9 @@ const Footer = () => {
                   <button
                     type="button"
                     key={i + 3}
-                    onClick={item === "TEST DRIVE" ? triggerPreorderForm : undefined}
+                    onClick={
+                      item === "TEST DRIVE" ? triggerPreorderForm : undefined
+                    }
                     className="font-conthrax text-[9px]"
                   >
                     {item}
@@ -71,7 +84,9 @@ const Footer = () => {
                 <button
                   type="button"
                   key={i}
-                  onClick={item === "TEST DRIVE" ? triggerPreorderForm : undefined}
+                  onClick={
+                    item === "TEST DRIVE" ? triggerPreorderForm : undefined
+                  }
                   className="font-conthrax text-[9px] lg:text-md xl:text-lg"
                 >
                   {item}

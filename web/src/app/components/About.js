@@ -19,10 +19,10 @@ const About = () => {
           </div>
           <div className="flex flex-col w-full items-center sm:items-start sm:w-2/3 justify-between gap-y-7">
             <p className="  text-lg md:text-3xl lg:text-[40px] lg:leading-14">
-              NoRa EV is more than a car, it&apos;s a movement. Built for our cities,
-              our people, and our future. Compact, safe, and powered by
-              Pakistan&apos;s own surplus electricity, NoRa is paving the way for
-              independence from costly fuel imports and polluted streets.
+              NoRa EV is more than a car, it&apos;s a movement. Built for our
+              cities, our people, and our future. Compact, safe, and powered by
+              Pakistan&apos;s own surplus electricity, NoRa is paving the way
+              for independence from costly fuel imports and polluted streets.
             </p>
             <p className="text-gray-400">
               NoRa EV is Pakistan&apos;s first battery-swappable electric car.
@@ -30,15 +30,16 @@ const About = () => {
               independence, and a greener tomorrow.
             </p>
             <div className="z-20">
-
-              <TestLink color="lime" onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              setTimeout(() => triggerPreorderForm(), 500);
-            }}>
-              Test Drive
-            </TestLink>
+              <TestLink
+                color="lime"
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  setTimeout(() => triggerPreorderForm(), 500);
+                }}
+              >
+                Order Now
+              </TestLink>
             </div>
-            
           </div>
         </div>
       </div>
@@ -91,8 +92,8 @@ const About = () => {
                       52%
                     </h1>
                     <p className="text-md xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
-                      Savings on lifetime costs compared to petrol
-                      bikes & rickshaws.
+                      Savings on lifetime costs compared to petrol bikes &
+                      rickshaws.
                     </p>
                   </div>
                   <p className="text-xs xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-600">
