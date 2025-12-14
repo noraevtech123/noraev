@@ -43,7 +43,7 @@ const ElectricAffordable = () => {
               className="h-24 w-2 lg:h-40 lg:w-4"
             />
             <p className="font-conthrax text-lime-400 text-lg md:text-xl lg:text-2xl">
-              Starting from PKR 1.899M - 3.0M
+              Starting from PKR 1.89M - 2.29M
             </p>
             <p className="text-gray-400 text-xs">(depending on variant)</p>
           </div>
