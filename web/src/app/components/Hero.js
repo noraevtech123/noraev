@@ -164,8 +164,20 @@ const Hero = () => {
               <br /> stylish, and ready to change the way we move. Contact us :
               info@noraevtech.com
             </p>
-            <div className="z-20">
+            <div className="z-20 flex gap-4 md:gap-8 items-center">
               <TestLink onClick={openPreOrderForm}>Pre Order</TestLink>
+              <TestLink
+                onClick={() => {
+                  const link = document.createElement("a");
+                  link.href = "/brochure.pdf";
+                  link.download = "NoRa-EV-Brochure.pdf";
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+              >
+                Download Brochure
+              </TestLink>
             </div>
           </div>
           <div className=" h-[17%] sm:h-[20%] w-full flex  flex-col-reverse sm:flex-row justify-between items-center mb-7">

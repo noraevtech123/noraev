@@ -13,7 +13,7 @@ const teamMembers = [
   },
   {
     name: "Ali Raza",
-    role: "CEO",
+    role: "COD",
     image: "/team/ali_raza.png",
     email: "aliraza@noraevtech.com",
     linkedin: "https://www.linkedin.com/in/ali-raza-b392a6386/",

@@ -64,10 +64,10 @@ const About = () => {
                 <div className="bg-[#333333] px-6 py-8 text-white h-full w-full flex flex-col justify-between">
                   <div className="flex flex-col space-y-4">
                     <h1 className="text-4xl xl:text-5xl sm:text-sm md:text-2xl lg:text-4xl font-conthrax ">
-                      7%
+                      200%
                     </h1>
                     <p className="text-md xl:text-lg sm:text-[7px] md:text-xs lg:text-[16px]">
-                      Cheaper to run than traditional cars.
+                      Cheaper to run than traditional Petrol/Dieselcars.
                     </p>
                   </div>
                   <p className="text-xs xl:text-[16px] sm:text-[4px] md:text-[7px] lg:text-xs text-gray-200">
