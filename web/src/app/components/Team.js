@@ -29,7 +29,10 @@ const teamMembers = [
 
 const Team = () => {
   return (
-    <div className="w-full bg-black py-16 sm:py-24 px-6 sm:px-10 lg:px-16">
+    <div
+      id="team"
+      className="w-full bg-black py-16 sm:py-24 px-6 sm:px-10 lg:px-16"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">

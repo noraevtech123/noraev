@@ -14,10 +14,10 @@ const carImages = [
 ];
 
 const carColors = [
-  { name: "gray", bgColor: "bg-gray-400" },
-  { name: "pink", bgColor: "bg-pink-500" },
+  { name: "white", bgColor: "bg-white" },
   { name: "black", bgColor: "bg-black" },
-  { name: "green", bgColor: "bg-green-500" },
+  { name: "pink", bgColor: "bg-pink-500" },
+  { name: "blue", bgColor: "bg-blue-500" },
 ];
 
 const Items = () => {
@@ -84,8 +84,17 @@ const Items = () => {
   };
 
   const isColorAvailable = () => {
-    // Only gray color (index 0) is available
-    return selectedColor === 0;
+    const colorName = carColors[selectedColor].name;
+    const viewName = views[selectedView]?.toLowerCase() || "front";
+
+    if (
+      viewName === "front" &&
+      ["black", "pink", "blue", "white"].includes(colorName)
+    ) {
+      return true;
+    }
+
+    return false;
   };
 
   useEffect(() => {
@@ -209,7 +218,7 @@ const Items = () => {
             <button
               key={i}
               onClick={() => setSelectedColor(i)}
-              className={`h-5 w-5 rounded-full transition-all duration-300 ${
+              className={`h-5 w-5 rounded-full transition-all duration-300 border border-gray-300 ${
                 color.bgColor
               } ${
                 selectedColor === i

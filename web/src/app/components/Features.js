@@ -17,7 +17,7 @@ const Features = () => {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         setIsSmallScreen(window.innerWidth < 640);
       }
     };
@@ -26,10 +26,10 @@ const Features = () => {
     checkScreenSize();
 
     // Add resize listener
-    window.addEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
 
     return () => {
-      window.removeEventListener('resize', checkScreenSize);
+      window.removeEventListener("resize", checkScreenSize);
     };
   }, []);
 
@@ -38,12 +38,12 @@ const Features = () => {
     const scrollStickCurr = scrollStick.current;
     const frontCarCurr = frontCar.current;
     const backCarCurr = backCar.current;
-    const cars = gsap.utils.toArray(".feature-car")
+    const cars = gsap.utils.toArray(".feature-car");
 
     if (scrollCarCurr && scrollStickCurr && frontCarCurr && backCarCurr) {
       // Use state for screen size check
       const targetY = isSmallScreen ? "-190vh" : "-120vh";
-      
+
       // Set initial opacity for car images
       gsap.set([frontCarCurr, backCarCurr], { opacity: 0.15 });
 
@@ -67,8 +67,7 @@ const Features = () => {
           duration: 1,
         },
         0
-      )
-      .to(
+      ).to(
         [frontCarCurr, backCarCurr],
         {
           opacity: 1,
@@ -85,25 +84,30 @@ const Features = () => {
   }, [isSmallScreen]);
 
   return (
-    <div className="h-[300vh] sm:h-[370vh]  w-full bg-black p-10">
+    <div id="features" className="h-[300vh] sm:h-[370vh]  w-full bg-black p-10">
       <div className="h-[50vh] sm:h-[70vh] w-full flex items-center">
         <div className="w-full flex sm:flex-row flex-col text-center sm:text-left  items-center  sm:items-start justify-between gap-10 sm:gap-16">
           <div className="flex flex-col gap-y-7 font-conthrax w-full sm:w-2/3">
-            <h1 className="text-lime-400 text-sm sm:text-lg">SWAPPING BATTERY</h1>
+            <h1 className="text-lime-400 text-sm sm:text-lg">
+              SWAPPING BATTERY
+            </h1>
             <h1 className="text-white text-2xl md:text-3xl lg:text-6xl">
               Goodbye Charging Delays. Hello 3-Minute Swaps
             </h1>
           </div>
           <div className="flex flex-col items-center sm:items-start gap-y-7 w-full sm:w-1/3">
             <p className=" text-xs md:text-md lg:text-lg text-gray-500">
-              With NoRa&apos;s fast swapping stations you&apos;ll be back on the road
-              in under 3 minutes. Stations are placed at existing petrol pumps
-              across Lahore, making it effortless and accessible.
+              With NoRa&apos;s fast swapping stations you&apos;ll be back on the
+              road in under 3 minutes. Stations are placed at existing petrol
+              pumps across Lahore, making it effortless and accessible.
             </p>
-            <TestLink color="lime" onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              setTimeout(() => triggerPreorderForm(), 500);
-            }}>
+            <TestLink
+              color="lime"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                setTimeout(() => triggerPreorderForm(), 500);
+              }}
+            >
               Pre-Book Now
             </TestLink>
           </div>

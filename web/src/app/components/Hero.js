@@ -6,14 +6,23 @@ import CustomerSupport from "./CustomerSupport";
 import { gsap } from "gsap";
 import TestLink from "./TestLink";
 import { PREORDER_EVENT } from "@/lib/uiEvents";
+import { Menu, X } from "lucide-react";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+const navItems = [
+  { label: "About", href: "#about" },
+  { label: "Features", href: "#features" },
+  { label: "Team", href: "#team" },
+  { label: "Gallery", href: "#gallery" },
+];
 
 const Hero = () => {
   const heroRef = useRef(null);
   const formRef = useRef(null);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [preOrderData, setPreOrderData] = useState({
     name: "",
     email: "",
@@ -140,7 +149,7 @@ const Hero = () => {
           ref={heroRef}
           className="hero z-0 h-[100vh]  mask overflow-hidden flex flex-col justify-between py-4 lg:py-6 px-4 lg:px-12 hero-responsive w-screen relative"
         >
-          <nav className="flex pr-5 md:pr-0 justify-between h-10 lg:h-20 overflow-hidden">
+          <nav className="flex pr-5 md:pr-0 justify-between items-center h-10 lg:h-20 overflow-hidden">
             <div className="h-10 lg:h-20 flex items-center">
               <Image
                 src="/horizontal-logo.svg"
@@ -150,7 +159,36 @@ const Hero = () => {
                 className="h-22 w-24 lg:h-32 lg:w-32 "
               />
             </div>
-            <div className="z-20 flex gap-2 md:gap-3">
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-6 lg:gap-8 z-20">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const element = document.querySelector(item.href);
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                  className="text-black text-sm lg:text-base font-medium hover:text-lime-600 transition-colors duration-300"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            <div className="z-20 flex items-center gap-2 md:gap-3">
+              {/* Mobile Hamburger Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="md:hidden p-2 text-black hover:text-lime-600 transition-colors"
+                aria-label="Open menu"
+              >
+                <Menu size={24} />
+              </button>
               <Button onClick={openPreOrderForm}>Contact Us</Button>
             </div>
           </nav>
@@ -161,8 +199,7 @@ const Hero = () => {
             </h1>
             <p className="text-gray-600 text-[9px] sm:text-[10px] lg:text-lg">
               Pakistan&apos;s first battery-swappable electric car. Affordable,
-              <br /> stylish, and ready to change the way we move. Contact us :
-              info@noraevtech.com
+              <br /> stylish, and ready to change the way we move.
             </p>
             <div className="z-20 flex gap-4 md:gap-8 items-center">
               <TestLink onClick={openPreOrderForm}>Pre Order</TestLink>
@@ -385,6 +422,95 @@ const Hero = () => {
           </div>
         </div>
       )}
+
+      {/* Mobile Sidebar Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[60] md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+
+          {/* Sidebar */}
+          <div
+            className="absolute top-0 right-0 h-full w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-out"
+            style={{
+              animation: "slideInFromRight 0.3s ease-out forwards",
+            }}
+          >
+            {/* Close button */}
+            <div className="flex justify-end p-4">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-black hover:text-lime-600 transition-colors"
+                aria-label="Close menu"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Logo */}
+            <div className="px-6 pb-6 border-b border-gray-200">
+              <Image
+                src="/horizontal-logo.svg"
+                alt="NoRa EV Logo"
+                width={100}
+                height={50}
+                className="h-12 w-auto"
+              />
+            </div>
+
+            {/* Navigation links */}
+            <nav className="flex flex-col p-6">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    const element = document.querySelector(item.href);
+                    if (element) {
+                      setTimeout(() => {
+                        element.scrollIntoView({ behavior: "smooth" });
+                      }, 300);
+                    }
+                  }}
+                  className="py-4 text-lg font-medium text-black hover:text-lime-600 border-b border-gray-100 transition-colors duration-300"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            {/* Contact button */}
+            <div className="absolute bottom-8 left-6 right-6">
+              <Button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setTimeout(() => openPreOrderForm(), 300);
+                }}
+                className="w-full"
+              >
+                Contact Us
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile menu animation styles */}
+      <style jsx>{`
+        @keyframes slideInFromRight {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+      `}</style>
     </>
   );
 };

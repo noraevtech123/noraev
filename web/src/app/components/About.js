@@ -6,7 +6,10 @@ import { triggerPreorderForm } from "@/lib/uiEvents";
 
 const About = () => {
   return (
-    <div className="h-[250vh]  sm:h-[140vh] md:h-[190vh] w-full bg-white p-10 relative">
+    <div
+      id="about"
+      className="h-[250vh]  sm:h-[140vh] md:h-[190vh] w-full bg-white p-10 relative"
+    >
       <div className="h-[70vh] sm:h-[90vh] w-full flex items-center justify-between">
         <div
           className="flex flex-col items-center sm:items-start text-center sm:text-left sm:flex-row 

@@ -4,6 +4,7 @@ import Environment from "./components/Environment";
 import Features from "./components/Features";
 import FeaturesCards from "./components/FeaturesCards";
 import Footer from "./components/Footer";
+import Gallery from "./components/Gallery";
 import Hero from "./components/Hero";
 import Items from "./components/Items";
 import Showroom from "./components/Showroom";
@@ -24,6 +25,7 @@ export default function Home() {
       <Items />
       <Environment />
       <Team />
+      <Gallery />
       <Footer />
       <WhatsAppButton />
     </>

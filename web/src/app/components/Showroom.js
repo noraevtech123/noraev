@@ -16,7 +16,7 @@ const Showroom = () => {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         setIsSmallScreen(window.innerWidth < 640);
       }
     };
@@ -25,10 +25,10 @@ const Showroom = () => {
     checkScreenSize();
 
     // Add resize listener
-    window.addEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
 
     return () => {
-      window.removeEventListener('resize', checkScreenSize);
+      window.removeEventListener("resize", checkScreenSize);
     };
   }, []);
 
@@ -71,7 +71,10 @@ const Showroom = () => {
   }, [isSmallScreen]);
 
   return (
-    <div ref={scrollMainRef} className="scroll-main h-[80vh] sm:h-[170vh] notched-small w-full  bg-black">
+    <div
+      ref={scrollMainRef}
+      className="scroll-main h-[80vh] sm:h-[170vh] notched-small w-full  bg-black"
+    >
       <div className="text-white showroom-bg h-full sm:h-[100vh] w-full sticky top-0  flex flex-col p-10 px-6 sm:px-7 md:px-14 justify-between">
         <nav className="flex justify-center sm:justify-between w-full h-20">
           <div className="h-10 lg:h-20 flex items-center">
@@ -84,7 +87,10 @@ const Showroom = () => {
             />
           </div>
           <div className="hidden sm:block">
-            <Button bgColor="lime" onClick={() => setIsComingSoonOpen(true)}> Enter Virtual Showroom</Button>
+            <Button bgColor="lime" onClick={() => setIsComingSoonOpen(true)}>
+              {" "}
+              Enter Virtual Showroom
+            </Button>
           </div>
         </nav>
         <div className="w-full text-white h-[400px] sm:h-[300px] mask flex flex-col items-center sm:items-start text-center sm:text-left sm:flex-row justify-between sm:mt-[200px]">
@@ -102,8 +108,11 @@ const Showroom = () => {
               work, a campus ride, or a night out in the city
             </h1>
             <div className="block sm:hidden mt-40">
-            <Button bgColor="lime" onClick={() => setIsComingSoonOpen(true)}> Enter Virtual Showroom</Button>
-          </div>
+              <Button bgColor="lime" onClick={() => setIsComingSoonOpen(true)}>
+                {" "}
+                Enter Virtual Showroom
+              </Button>
+            </div>
           </div>
         </div>
         <div className="h-full w-full absolute inset-0 overflow-hidden">
