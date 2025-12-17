@@ -117,7 +117,7 @@ body {
 @media (min-width: 640px) {
   .hero-responsive {
     background-image: url("/hero-bg.png");
-    background-size: 145%;
+    background-size: 125%;
     background-position: 50% 70%;
   }
 }

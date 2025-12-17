@@ -85,16 +85,8 @@ const Items = () => {
 
   const isColorAvailable = () => {
     const colorName = carColors[selectedColor].name;
-    const viewName = views[selectedView]?.toLowerCase() || "front";
-
-    if (
-      viewName === "front" &&
-      ["black", "pink", "blue", "white"].includes(colorName)
-    ) {
-      return true;
-    }
-
-    return false;
+    // All colors (white, black, pink, blue) now have all views (front, back, left, right)
+    return ["white", "black", "pink", "blue"].includes(colorName);
   };
 
   useEffect(() => {
